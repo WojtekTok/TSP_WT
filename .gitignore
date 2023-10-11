@@ -398,3 +398,5 @@ FodyWeavers.xsd
 *.sln.iml
 
 .vs/
+/.vs/VSWorkspaceState.json
+/.vs/slnx.sqlite
