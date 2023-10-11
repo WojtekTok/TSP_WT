@@ -19,7 +19,7 @@ namespace TSPLibrary
 
         public List<Solution> GenerateRandomPopulation()
         {
-            
+            return new List<Solution> { };
         }
     }
 }

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSPLibrary", "TSPLibrary\TSPLibrary.csproj", "{9FB4A37C-5E80-4AB9-9D71-96E127468BCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSPLibrary", "TSPLibrary\TSPLibrary.csproj", "{9FB4A37C-5E80-4AB9-9D71-96E127468BCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brudnopis", "Brudnopis\Brudnopis.csproj", "{EC6DE9A4-8C5F-42CD-9D64-B9CFF314832D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{2FE7FE2E-3E12-4ED2-985F-C9CAD6F12908}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{9FB4A37C-5E80-4AB9-9D71-96E127468BCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FB4A37C-5E80-4AB9-9D71-96E127468BCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FB4A37C-5E80-4AB9-9D71-96E127468BCC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EC6DE9A4-8C5F-42CD-9D64-B9CFF314832D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC6DE9A4-8C5F-42CD-9D64-B9CFF314832D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC6DE9A4-8C5F-42CD-9D64-B9CFF314832D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC6DE9A4-8C5F-42CD-9D64-B9CFF314832D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FE7FE2E-3E12-4ED2-985F-C9CAD6F12908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FE7FE2E-3E12-4ED2-985F-C9CAD6F12908}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FE7FE2E-3E12-4ED2-985F-C9CAD6F12908}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FE7FE2E-3E12-4ED2-985F-C9CAD6F12908}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
