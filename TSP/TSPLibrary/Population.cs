@@ -17,9 +17,14 @@ namespace TSPLibrary
             //TODO tworzenie w pętli losowych rozwiązań
         }
 
-        public List<Solution> GenerateRandomPopulation()
+        public List<Solution> GenerateRandomPopulation(int size)
         {
-            return new List<Solution> { };
+            List<Solution> population = new List<Solution>();
+            for(int i=0; i<size; i++)
+            {
+                population.Add(new Solution(Matrix));
+            }
+            return population;
         }
     }
 }

@@ -5,13 +5,14 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using TspLibNet;
 
 namespace TSPLibrary
 {
     public class Solution
     {
         public List<int> route = new List<int>();
-        public int Cost { get; private set; }
+        public double Cost { get; private set; }
         public CostMatrix Matrix { get; private set; }
         private Random rnd = new Random();
         public Solution(CostMatrix matrix) 
@@ -34,7 +35,7 @@ namespace TSPLibrary
 
         private void CalculateCost() 
         {
-            int temp_cost = 0;
+            double temp_cost = 0;
             for (int i=0; i<this.route.Count-1; i++)
                 temp_cost += Matrix.Matrix[route[i],route[i + 1]];
             temp_cost += Matrix.Matrix[route[this.route.Count-1], route[0]];

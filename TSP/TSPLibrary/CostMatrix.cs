@@ -8,11 +8,11 @@ namespace TSPLibrary
     public class CostMatrix
         //TODO dodać że muszą być wszystkie węzły jakoś połączone
     {
-        public required int[,] Matrix {  get; set; }
+        public required double[,] Matrix {  get; set; }
         public int nodesCount { get; set; }
 
         [SetsRequiredMembers]
-        public CostMatrix(int[,] matrix)
+        public CostMatrix(double[,] matrix)
         {
             if (matrix.GetLength(0) != matrix.GetLength(1))
             {

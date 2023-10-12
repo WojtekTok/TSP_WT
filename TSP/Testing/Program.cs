@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using TSPLibrary;
 
-int[,] mac = { { 1, 2, 3, 4, 5, 6 }, { 1, 2, 3, 4, 5, 6 }, { 1, 2, 3, 4, 5, 6 }, { 1, 2, 3, 4, 5, 6 }, { 1, 2, 3, 4, 5, 6 }, { 1, 2, 3, 4, 5, 6 } };
+double[,] mac = { { 1, 2, 3, 4, 5, 6 }, { 1, 2, 3, 4, 5, 6 }, { 1, 2, 3, 4, 5, 6 }, { 1, 2, 3, 4, 5, 6 }, { 1, 2, 3, 4, 5, 6 }, { 1, 2, 3, 4, 5, 6 } };
 CostMatrix macierzkoszt = new CostMatrix(mac);
 Solution sol = new Solution(new List<int> { 1, 2, 0, 3, 4, 5 }, macierzkoszt);
 Solution sol2 = new Solution(new List<int> { 4, 5, 2, 0, 3, 1 }, macierzkoszt);
