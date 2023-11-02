@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace TSPLibrary
 {
-    public class Constants
+    interface IAlgorithm
     {
-        public const double inf = double.MaxValue;
+        Solution Solve(int iterations);
     }
 }

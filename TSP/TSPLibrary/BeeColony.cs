@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace TSPLibrary
 {
-    public class Constants
+    internal class BeeColony //: IAlgorithm
     {
-        public const double inf = double.MaxValue;
     }
 }
