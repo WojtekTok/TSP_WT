@@ -8,6 +8,6 @@ namespace TSPLibrary
 {
     interface IAlgorithm
     {
-        Solution Solve(int iterations);
+        public Solution Solve(int iterations);
     }
 }

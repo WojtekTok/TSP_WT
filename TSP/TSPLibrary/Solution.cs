@@ -102,11 +102,13 @@ namespace TSPLibrary
             return newRoute;
         }
 
-        public void MutateRandom()
+        public List<int> MutateRandom()
         {
+            List<int> newRoute = new();
             int startIndex = random.Next(0, Matrix.nodesNumber);
             int indexNumber = random.Next(Matrix.nodesNumber - startIndex);
-            path = Mutate(startIndex, indexNumber);
+            newRoute = Mutate(startIndex, indexNumber);
+            return newRoute;
         }
 
         /// <summary>

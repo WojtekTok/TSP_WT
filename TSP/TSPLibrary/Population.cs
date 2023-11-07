@@ -17,7 +17,7 @@ namespace TSPLibrary
         /// </summary>
         public List<Solution> SolutionsPopulation { get; set; }
 
-        private CostMatrix Matrix { get; set; }
+        public CostMatrix Matrix { get; set; }
         public Population(CostMatrix matrix)
         {
             Matrix = matrix;
@@ -69,7 +69,10 @@ namespace TSPLibrary
             NewPopulation.SolutionsPopulation = solutions;
             return NewPopulation;
         }   
-
+        /// <summary>
+        /// Finds best solution
+        /// </summary>
+        /// <returns>Best solution among population</returns>
         public Solution BestSolution()
         {
             double bestCost = Constants.inf;
@@ -77,11 +80,84 @@ namespace TSPLibrary
             foreach(Solution solution in SolutionsPopulation)
             {
                 if (solution.cost < bestCost)
+                {
                     bestCost = solution.cost;
                     BestSolution = solution;
+                }
+                    
             }
             return BestSolution;
         }
-        
+
+        public List<Solution> ThreeBest()
+        {
+            List<Solution> bestSolutions = SolutionsPopulation.Take(3).ToList();
+            foreach (Solution solution in SolutionsPopulation)
+            {
+                if (solution.cost < bestSolutions[2].cost)
+                {
+                    if (solution.cost < bestSolutions[1].cost)
+                    {
+                        if (solution.cost < bestSolutions[0].cost)
+                        {
+                            bestSolutions[2] = bestSolutions[1];
+                            bestSolutions[1] = bestSolutions[0];
+                            bestSolutions[0] = solution;
+                        }
+                        else
+                        {
+                            bestSolutions[2] = bestSolutions[1];
+                            bestSolutions[1] = solution;
+                        }
+                    }
+                    else
+                    {
+                        bestSolutions[2] = solution;
+                    }
+                }
+            }
+            return bestSolutions;
+        } 
+
+        /// <summary>
+        /// Calculates total fitness of whole population
+        /// </summary>
+        /// <returns>Total fitness of all solutions</returns>
+        private double TotalFitness()
+        {
+            double totalFit = 0.0;
+            foreach (var solution in SolutionsPopulation)
+            {
+                totalFit += 1 / solution.cost;
+            }
+            return totalFit;
+        }
+
+        internal List<int> ProbabilitySelect(int solutionNumber)
+        {
+            double totalFit = TotalFitness();
+            List<int> chosenSolutions = new List<int>();
+            Random random = new();
+
+            for (int i = 0; i < solutionNumber; i++)
+            {
+                double randomValue = random.NextDouble() * totalFit;
+                double sum = 0;
+                List<int> indicesLeft = Enumerable.Range(0, SolutionsPopulation.Count).ToList();
+                for (int j = 0; j < SolutionsPopulation.Count; j++)
+                {
+                    int randomInt = random.Next(SolutionsPopulation.Count - j);
+                    sum += 1 / SolutionsPopulation[indicesLeft[randomInt]].cost;
+                    indicesLeft.RemoveAt(randomInt);
+                    if (sum >= randomValue)
+                    {
+                        chosenSolutions.Add(randomInt);
+                        break;
+                    }
+                }
+            }
+            return chosenSolutions;
+        }
+
     }
 }

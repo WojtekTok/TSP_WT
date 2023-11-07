@@ -47,7 +47,7 @@ namespace TSPLibrary
                     Solution child = parentOne.Crossover(parentTwo);
                     if (random.NextDouble() < mutationProbability)
                     {
-                        child.MutateRandom();
+                        child.path = child.MutateRandom();
                     }
                     newPopulation.Add(child);
                 }
@@ -59,44 +59,14 @@ namespace TSPLibrary
             }
             return bestSolution;
         }
-        /// <summary>
-        /// Calculates total fitness of whole population
-        /// </summary>
-        /// <returns>Total fitness of all solutions</returns>
-        private double TotalFitness()
-        {
-            double totalFit = 0.0;
-            foreach (var solution in Population.SolutionsPopulation)
-            {
-                totalFit += 1/solution.cost;
-            }
-            return totalFit;
-        }
+
         /// <summary>
         /// Selects parents for crossover operation based on their fitness
         /// </summary>
         /// <returns>List of parents that is twice as large as base population</returns>
         private List<int> SelectParents()
         {
-            double totalFit = TotalFitness();
-            List<int> parents = new List<int>();
-            for (int i = 0;i < Population.SolutionsPopulation.Count*2; i++)
-            {
-                double randomValue = random.NextDouble() * totalFit;
-                double sum = 0;
-                List<int> indicesLeft = Enumerable.Range(0, Population.SolutionsPopulation.Count).ToList();
-                for (int j = 0; j < Population.SolutionsPopulation.Count; j++)
-                {
-                    int randomInt = random.Next(Population.SolutionsPopulation.Count-j);
-                    sum += 1 / Population.SolutionsPopulation[indicesLeft[randomInt]].cost;
-                    indicesLeft.RemoveAt(randomInt);
-                    if (sum >= randomValue)
-                    {
-                        parents.Add(randomInt);
-                        break;
-                    }
-                }
-            }
+            List<int> parents = Population.ProbabilitySelect(Population.SolutionsPopulation.Count * 2);
             return parents;
         }
     }
