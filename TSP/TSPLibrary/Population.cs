@@ -18,6 +18,7 @@ namespace TSPLibrary
         public List<Solution> SolutionsPopulation { get; set; }
 
         public CostMatrix Matrix { get; set; }
+        private Random random = new();
         public Population(CostMatrix matrix)
         {
             Matrix = matrix;
@@ -135,29 +136,77 @@ namespace TSPLibrary
 
         internal List<int> ProbabilitySelect(int solutionNumber)
         {
+            List<int> chosenSolutions = new List<int>();
+            while (chosenSolutions.Count < solutionNumber)
+            {
+                List<Solution> participants = new();
+                List<int> indicesLeft = Enumerable.Range(0, SolutionsPopulation.Count).ToList();
+                while (indicesLeft.Count > 0)
+                {
+                    int randomValue = random.Next(indicesLeft.Count);
+                    participants.Add(SolutionsPopulation[indicesLeft[randomValue]]);
+                    indicesLeft.Remove(indicesLeft[randomValue]);
+                    if(participants.Count == SolutionsPopulation.Count/10) 
+                    {
+                        chosenSolutions.Add(participants.FindIndex(sol => sol.cost == participants.Min(s => s.cost)));
+                        participants.Clear();
+                    }
+                }
+                if(participants.Count > 0)
+                {
+                    chosenSolutions.Add(participants.FindIndex(sol => sol.cost == participants.Min(s => s.cost)));
+                }
+            }
+            return chosenSolutions;
+        }
+
+        internal List<int> ProbabilitySelect1(int solutionNumber) //roulette
+        {
             double totalFit = TotalFitness();
             List<int> chosenSolutions = new List<int>();
-            Random random = new();
 
-            for (int i = 0; i < solutionNumber; i++)
+            for(int i = 0; i < solutionNumber; i++)
             {
                 double randomValue = random.NextDouble() * totalFit;
                 double sum = 0;
-                List<int> indicesLeft = Enumerable.Range(0, SolutionsPopulation.Count).ToList();
-                for (int j = 0; j < SolutionsPopulation.Count; j++)
+                for(int j = 0; j < SolutionsPopulation.Count; j++)
                 {
-                    int randomInt = random.Next(SolutionsPopulation.Count - j);
-                    sum += 1 / SolutionsPopulation[indicesLeft[randomInt]].cost;
-                    indicesLeft.RemoveAt(randomInt);
-                    if (sum >= randomValue)
+                    sum += 1 / SolutionsPopulation[j].cost;
+                    if (randomValue <= sum)
                     {
-                        chosenSolutions.Add(randomInt);
+                        chosenSolutions.Add(j);
                         break;
                     }
                 }
             }
             return chosenSolutions;
         }
+
+        //internal List<int> ProbabilitySelect1(int solutionNumber)
+        //{
+        //    double totalFit = TotalFitness();
+        //    List<int> chosenSolutions = new List<int>();
+        //    Random random = new();
+
+        //    for (int i = 0; i < solutionNumber; i++)
+        //    {
+        //        double randomValue = random.NextDouble() * totalFit;
+        //        double sum = 0;
+        //        List<int> indicesLeft = Enumerable.Range(0, SolutionsPopulation.Count).ToList();
+        //        for (int j = 0; j < SolutionsPopulation.Count; j++)
+        //        {
+        //            int randomInt = random.Next(SolutionsPopulation.Count - j);
+        //            sum += 1 / SolutionsPopulation[indicesLeft[randomInt]].cost;
+        //            indicesLeft.RemoveAt(randomInt);
+        //            if (sum >= randomValue)
+        //            {
+        //                chosenSolutions.Add(randomInt);
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    return chosenSolutions;
+        //}
 
     }
 }

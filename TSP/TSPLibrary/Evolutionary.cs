@@ -44,7 +44,7 @@ namespace TSPLibrary
                     parents.Remove(parentTwoIndex);
                     Solution parentOne = Population.SolutionsPopulation[parentOneIndex];
                     Solution parentTwo = Population.SolutionsPopulation[parentTwoIndex];
-                    Solution child = parentOne.Crossover(parentTwo);
+                    Solution child = parentOne.CrossoverRandom(parentTwo);
                     if (random.NextDouble() < mutationProbability)
                     {
                         child.path = child.MutateRandom();

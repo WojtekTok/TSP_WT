@@ -86,9 +86,8 @@ namespace TSPLibrary
         /// <returns> New, mutated path </returns>
         private List<int> Mutate(int startNode, int nodeNumber)
         {
-            if (startNode+nodeNumber > this.path.Count - 1)
-                new Exception("nodeCount out of bounds");
-
+            startNode -= MoveToEnd(startNode, nodeNumber);
+                
             List<int> nodesLeft = path.GetRange(startNode, nodeNumber);
             List<int> newRoute = new List<int>();
             newRoute.AddRange(path.Take(startNode));
@@ -106,7 +105,7 @@ namespace TSPLibrary
         {
             List<int> newRoute = new();
             int startIndex = random.Next(0, Matrix.nodesNumber);
-            int indexNumber = random.Next(Matrix.nodesNumber - startIndex);
+            int indexNumber = random.Next(0, Matrix.nodesNumber/2);
             newRoute = Mutate(startIndex, indexNumber);
             return newRoute;
         }
@@ -121,19 +120,64 @@ namespace TSPLibrary
             return Mutate(0, Matrix.nodesNumber);
         }
 
+
+        public Solution CrossoverRandom(Solution otherSolution)
+        {
+            int startIndex = random.Next(Matrix.nodesNumber);
+            int indexNumber = random.Next(Matrix.nodesNumber/3, Matrix.nodesNumber*2 / 3);
+            return Crossover(otherSolution, startIndex, indexNumber);
+        }
+
+        public Solution ApproachingPrey(Solution alpha, Solution beta, Solution delta) 
+        {
+            int stepSize;
+            if (Matrix.nodesNumber < 10)
+                stepSize = 1;
+            else
+                stepSize = Matrix.nodesNumber / 10; //TODO zrobić tak, żeby dł kroku zależała od ilości iteracji i wielkości populacji
+
+            List<int> nodesLeft = Enumerable.Range(0, Matrix.nodesNumber).ToList();
+            int removeFrom;
+            int alphaNode = nodesLeft[random.Next(Matrix.nodesNumber)];
+            if (alphaNode - stepSize < 0)
+                removeFrom = 0;
+            else
+                removeFrom = alphaNode - stepSize;
+            nodesLeft.RemoveRange(removeFrom, stepSize);
+            int betaNode = nodesLeft[random.Next(Matrix.nodesNumber - stepSize*2)];
+            if (betaNode - stepSize < 0)
+                removeFrom = 0;
+            else
+                removeFrom = betaNode - stepSize;
+            nodesLeft.RemoveRange(removeFrom, stepSize);
+            int deltaNode = nodesLeft[random.Next(Matrix.nodesNumber - stepSize * 4)];
+            //nodesLeft.RemoveRange(deltaNode, stepSize);
+
+            Solution HelperCrossover(int nodeIndex, Solution firstSolution, Solution secSolution)
+            {
+                int excess = MoveToEnd(nodeIndex, stepSize);
+                alphaNode -= excess;
+                betaNode -= excess;
+                deltaNode -= excess;
+                return firstSolution.Crossover(secSolution, nodeIndex, stepSize);
+            }
+            
+            Solution newSolution = HelperCrossover(deltaNode, delta, this);
+            newSolution = HelperCrossover(betaNode, beta, newSolution);
+            newSolution = HelperCrossover(alphaNode, alpha, newSolution);
+
+            return newSolution;
+        }
         /// <summary>
-        /// Crossover two solutions
+        /// Crossover two solutions starting from a random node. Crossed nodes can count from 33% up to 66% of all nodes.
         /// </summary>
         /// <param name="otherSolution"> Solution to crossover with </param>
         /// <param name="startIndex"> Index from which a solution's part is taken </param>
-        /// <param name="indexCount"> Number of nodes to be taken </param>
+        /// <param name="indexNumber"> Number of nodes to be taken </param>
         /// <returns> New solution based on two parent solutions </returns>
-        public Solution Crossover(Solution otherSolution)
+        private Solution Crossover(Solution otherSolution, int startIndex, int indexNumber)
         {
-            int startIndex = random.Next(0, Matrix.nodesNumber);
-            int indexNumber = random.Next(Matrix.nodesNumber - startIndex);
-            if(indexNumber > Matrix.nodesNumber - startIndex)
-                indexNumber = Matrix.nodesNumber - startIndex;
+            startIndex -= MoveToEnd(startIndex, indexNumber);
             List<int> toCutOut = path.GetRange(startIndex, indexNumber);
             List<int> cuttedOtherPath = otherSolution.path.Except(toCutOut).ToList();
             List<int> newPath = cuttedOtherPath.Take(startIndex)
@@ -141,6 +185,23 @@ namespace TSPLibrary
                                                 .Concat(cuttedOtherPath.Skip(startIndex))
                                                 .ToList();
             return new Solution(newPath, Matrix);
+        }
+
+        private List<int> MoveNodes(List<int> nodes, int toMove)
+        {
+            return nodes.Skip(toMove).Concat(nodes.Take(toMove)).ToList();
+        }
+
+        private int MoveToEnd(int startIndex, int indexNumber)
+        {
+            if (indexNumber > Matrix.nodesNumber - startIndex)
+            {
+                int excess = startIndex + indexNumber - Matrix.nodesNumber;
+                path = MoveNodes(path, startIndex + indexNumber - Matrix.nodesNumber); // any node can be starting node
+                return excess;
+            }
+            else
+                return 0;
         }
 
     }

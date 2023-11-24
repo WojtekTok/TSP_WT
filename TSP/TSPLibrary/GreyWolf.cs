@@ -15,6 +15,7 @@ namespace TSPLibrary
         public Solution Alpha;
         public Solution Beta;
         public Solution Delta;
+        private Random random = new Random();
 
         public GreyWolf(Population population) { Population = population; }
         public Solution Solve(int iterations)
@@ -23,7 +24,6 @@ namespace TSPLibrary
             {
                 UpdateBest();
                 UpdatePositions();
-                DeltaExploration();
                 LowestCostsList.Add(Alpha.cost);
             }
             UpdateBest();
@@ -38,15 +38,16 @@ namespace TSPLibrary
                     && Population.SolutionsPopulation[i] != Beta 
                     && Population.SolutionsPopulation[i] != Delta)
                 {
-                    Population.SolutionsPopulation[i].Crossover(Delta);
-                    Population.SolutionsPopulation[i].Crossover(Beta);
-                    Population.SolutionsPopulation[i].Crossover(Alpha);
+                    if (random.Next(10) == 1) // Exploration
+                    {
+                        Population.SolutionsPopulation[i].path = Population.SolutionsPopulation[i].MutateRandom();
+                    }
+                    else
+                    {
+                        Population.SolutionsPopulation[i] = Population.SolutionsPopulation[i].ApproachingPrey(Alpha, Beta, Delta);
+                    }
                 }
             }
-        }
-        private void DeltaExploration()
-        {
-            Delta = new Solution(Delta.Matrix);
         }
         private void UpdateBest()
         {

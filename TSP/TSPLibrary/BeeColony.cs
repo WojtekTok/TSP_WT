@@ -26,7 +26,7 @@ namespace TSPLibrary
             {
                 EmployedPhase();
                 OnlookerPhase();
-                ScoutPhase();
+                ScoutPhase(iterations);
                 Solution currentIterBest = Population.BestSolution();
                 LowestCostsList.Add(currentIterBest.cost);
                 if (currentIterBest.cost <= LowestCostsList.Min())
@@ -46,11 +46,11 @@ namespace TSPLibrary
             NeighbourhoodExploration(toVisit);
         }
 
-        private void ScoutPhase()
+        private void ScoutPhase(int iterations)
         {
             for (int i = 0; i < Population.SolutionsPopulation.Count; i++)
             {
-                if (trialCounter[i] > Population.Matrix.nodesNumber/10)
+                if (trialCounter[i] > iterations*10) //TODO możliwe że to lepiej sparametryzować
                 {
                     trialCounter[i] = 0;
                     Population.SolutionsPopulation[i] = new Solution(Population.SolutionsPopulation[i].Matrix);
