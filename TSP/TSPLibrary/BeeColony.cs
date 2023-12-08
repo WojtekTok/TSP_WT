@@ -19,14 +19,14 @@ namespace TSPLibrary
             trialCounter = new int[population.SolutionsPopulation.Count];
         }
 
-        public Solution Solve(int iterations)
+        public Solution Solve(int iterations, bool deterministicMutation, bool deterministicCrossover)
         {
             Solution bestSolution = Population.SolutionsPopulation[0];
             for (int i = 0; i < iterations; i++)
             {
-                EmployedPhase();
-                OnlookerPhase();
-                ScoutPhase(iterations);
+                EmployedPhase(deterministicMutation);
+                OnlookerPhase(deterministicMutation);
+                ScoutPhase(iterations, deterministicMutation);
                 Solution currentIterBest = Population.BestSolution();
                 LowestCostsList.Add(currentIterBest.cost);
                 if (currentIterBest.cost <= LowestCostsList.Min())
@@ -35,35 +35,45 @@ namespace TSPLibrary
             return bestSolution;
         }
 
-        private void EmployedPhase()
+        private void EmployedPhase(bool deterministicMutation)
         {
             List<int> populationIdices = Enumerable.Range(0, Population.SolutionsPopulation.Count).ToList();
-            NeighbourhoodExploration(populationIdices);
+            NeighbourhoodExploration(populationIdices, deterministicMutation);
         }
-        private void OnlookerPhase()
+        private void OnlookerPhase(bool deterministicMutation)
         {
-            List<int> toVisit = Population.ProbabilitySelect(onlookerBees);
-            NeighbourhoodExploration(toVisit);
+            List<int> toVisit = Population.TournamentSelect(onlookerBees);
+            NeighbourhoodExploration(toVisit, deterministicMutation);
         }
 
-        private void ScoutPhase(int iterations)
+        private void ScoutPhase(int iterations, bool deterministicCrossover)
         {
             for (int i = 0; i < Population.SolutionsPopulation.Count; i++)
             {
-                if (trialCounter[i] > iterations*10) //TODO możliwe że to lepiej sparametryzować
+                if (trialCounter[i] > iterations*10) 
                 {
                     trialCounter[i] = 0;
-                    Population.SolutionsPopulation[i] = new Solution(Population.SolutionsPopulation[i].Matrix);
+                    var newSol = new Solution(Population.SolutionsPopulation[i].Matrix);
+                    if (deterministicCrossover)
+                        Population.SolutionsPopulation[i] = Population.SolutionsPopulation[i]
+                            .CrossoverDeterministic(newSol, 20);
+                    else
+                        Population.SolutionsPopulation[i] = Population.SolutionsPopulation[i]
+                            .CrossoverRandom(newSol);
                 }
             }
         }
 
-        private void NeighbourhoodExploration(List<int> solutionsNumber)
+        private void NeighbourhoodExploration(List<int> solutionsNumber, bool determinsticMutation)
         {
             foreach(int i in solutionsNumber)
             {
                 Solution currSolution = Population.SolutionsPopulation[i];
-                Solution neighbour = new Solution(currSolution.MutateRandom(), currSolution.Matrix);
+                Solution neighbour;
+                if (determinsticMutation)
+                    neighbour = new Solution(currSolution.MutateDeterministic(), currSolution.Matrix);
+                else
+                    neighbour = new Solution(currSolution.MutateRandom(), currSolution.Matrix);
                 if (neighbour.cost < currSolution.cost)
                     Population.SolutionsPopulation[i] = neighbour;
                 else

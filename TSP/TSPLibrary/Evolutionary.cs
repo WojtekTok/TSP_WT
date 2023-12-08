@@ -29,7 +29,7 @@ namespace TSPLibrary
         /// </summary>
         /// <param name="iterations">Number of iterations algorithm executes</param>
         /// <returns>Best solution found through all iterations</returns>
-        public Solution Solve(int iterations)
+        public Solution Solve(int iterations, bool deterministicMutation, bool deterministicCrossover)
         {
             Solution bestSolution = Population.SolutionsPopulation[0];
             for (int i = 0; i < iterations; i++) 
@@ -44,10 +44,18 @@ namespace TSPLibrary
                     parents.Remove(parentTwoIndex);
                     Solution parentOne = Population.SolutionsPopulation[parentOneIndex];
                     Solution parentTwo = Population.SolutionsPopulation[parentTwoIndex];
-                    Solution child = parentOne.CrossoverRandom(parentTwo);
+                    Solution child;
+                    if (deterministicCrossover)
+                        child = parentOne.CrossoverDeterministic(parentTwo, 20);
+                    else
+                        child = parentOne.CrossoverRandom(parentTwo);
+
                     if (random.NextDouble() < mutationProbability)
                     {
-                        child.path = child.MutateRandom();
+                        if (deterministicMutation)
+                            child.path = child.MutateDeterministic();
+                        else
+                            child.path = child.MutateRandom();
                     }
                     newPopulation.Add(child);
                 }
@@ -66,7 +74,7 @@ namespace TSPLibrary
         /// <returns>List of parents that is twice as large as base population</returns>
         private List<int> SelectParents()
         {
-            List<int> parents = Population.ProbabilitySelect(Population.SolutionsPopulation.Count * 2);
+            List<int> parents = Population.TournamentSelect(Population.SolutionsPopulation.Count * 2);
             return parents;
         }
     }

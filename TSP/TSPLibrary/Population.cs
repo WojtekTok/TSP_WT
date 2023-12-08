@@ -92,7 +92,7 @@ namespace TSPLibrary
 
         public List<Solution> ThreeBest()
         {
-            List<Solution> bestSolutions = SolutionsPopulation.Take(3).ToList();
+            List<Solution> bestSolutions = SolutionsPopulation.Take(3).OrderBy(k => k.cost).ToList();
             foreach (Solution solution in SolutionsPopulation)
             {
                 if (solution.cost < bestSolutions[2].cost)
@@ -134,7 +134,7 @@ namespace TSPLibrary
             return totalFit;
         }
 
-        internal List<int> ProbabilitySelect(int solutionNumber)
+        internal List<int> TournamentSelect(int solutionNumber)
         {
             List<int> chosenSolutions = new List<int>();
             while (chosenSolutions.Count < solutionNumber)

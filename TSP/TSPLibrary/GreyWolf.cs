@@ -18,19 +18,23 @@ namespace TSPLibrary
         private Random random = new Random();
 
         public GreyWolf(Population population) { Population = population; }
-        public Solution Solve(int iterations)
+        public Solution Solve(int iterations, bool deterministicMutation, bool deterministicCrossover)
         {
             for (int i = 0; i < iterations; i++)
             {
                 UpdateBest();
-                UpdatePositions();
+                UpdatePositions(iterations, deterministicCrossover);
                 LowestCostsList.Add(Alpha.cost);
+                if (i>0 && LowestCostsList[i-1] < LowestCostsList[i])
+                {
+                    Console.WriteLine("zle");
+                }
             }
             UpdateBest();
             return Alpha;
         }
 
-        private void UpdatePositions()
+        private void UpdatePositions(int iterations, bool deterministicCrossover)
         {
             for(int i = 0; i < Population.SolutionsPopulation.Count; i++)
             {
@@ -40,11 +44,14 @@ namespace TSPLibrary
                 {
                     if (random.Next(10) == 1) // Exploration
                     {
-                        Population.SolutionsPopulation[i].path = Population.SolutionsPopulation[i].MutateRandom();
+                        if (deterministicCrossover)
+                            Population.SolutionsPopulation[i].path = Population.SolutionsPopulation[i].MutateDeterministic();
+                        else
+                            Population.SolutionsPopulation[i].path = Population.SolutionsPopulation[i].MutateRandom();
                     }
                     else
                     {
-                        Population.SolutionsPopulation[i] = Population.SolutionsPopulation[i].ApproachingPrey(Alpha, Beta, Delta);
+                        Population.SolutionsPopulation[i] = Population.SolutionsPopulation[i].ApproachingPrey(Alpha, Beta, Delta, iterations, deterministicCrossover);
                     }
                 }
             }
