@@ -15,7 +15,7 @@ namespace TSPLibrary
         /// <summary>
         /// List that contains lowest cost among all solutions in each iteration
         /// </summary>
-        private List<double> LowestCostsList = new List<double>();
+        public List<double> LowestCostsList = new List<double>();
         /// <summary>
         /// Probability of mutation for every solution in each iteration (default 0.1)
         /// </summary>
@@ -31,7 +31,8 @@ namespace TSPLibrary
         /// <returns>Best solution found through all iterations</returns>
         public Solution Solve(int iterations, bool deterministicMutation, bool deterministicCrossover)
         {
-            Solution bestSolution = Population.SolutionsPopulation[0];
+            Solution bestSolution = Population.BestSolution();
+            LowestCostsList.Add(bestSolution.cost);
             for (int i = 0; i < iterations; i++) 
             {
                 List<Solution> newPopulation = new List<Solution>();
@@ -46,7 +47,8 @@ namespace TSPLibrary
                     Solution parentTwo = Population.SolutionsPopulation[parentTwoIndex];
                     Solution child;
                     if (deterministicCrossover)
-                        child = parentOne.CrossoverDeterministic(parentTwo, 20);
+                        child = parentOne.CrossoverDeterministic(parentTwo, 
+                            random.Next(parentTwo.path.Count/2));
                     else
                         child = parentOne.CrossoverRandom(parentTwo);
 

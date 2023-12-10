@@ -11,7 +11,7 @@ namespace TSPLibrary
         //10.5539/mas.v12n8p142
 
         public Population Population { get; set; }
-        private List<double> LowestCostsList = new List<double>();
+        public List<double> LowestCostsList = new List<double>();
         public Solution Alpha;
         public Solution Beta;
         public Solution Delta;
@@ -20,6 +20,7 @@ namespace TSPLibrary
         public GreyWolf(Population population) { Population = population; }
         public Solution Solve(int iterations, bool deterministicMutation, bool deterministicCrossover)
         {
+            LowestCostsList.Add(Population.BestSolution().cost);
             for (int i = 0; i < iterations; i++)
             {
                 UpdateBest();

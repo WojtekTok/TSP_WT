@@ -9,19 +9,21 @@ namespace TSPLibrary
     public class BeeColony : IAlgorithm
     {
         public Population Population { get; private set; }
-        private List<double> LowestCostsList = new List<double>();
+        public List<double> LowestCostsList = new List<double>();
         private int[] trialCounter;
         private int onlookerBees;
+        private Random random = new();
         public BeeColony(Population population) 
         {
             Population = population;
-            onlookerBees = population.SolutionsPopulation.Count;
+            onlookerBees = population.SolutionsPopulation.Count/2;
             trialCounter = new int[population.SolutionsPopulation.Count];
         }
 
         public Solution Solve(int iterations, bool deterministicMutation, bool deterministicCrossover)
         {
-            Solution bestSolution = Population.SolutionsPopulation[0];
+            Solution bestSolution = Population.BestSolution();
+            LowestCostsList.Add(bestSolution.cost);
             for (int i = 0; i < iterations; i++)
             {
                 EmployedPhase(deterministicMutation);
@@ -56,7 +58,8 @@ namespace TSPLibrary
                     var newSol = new Solution(Population.SolutionsPopulation[i].Matrix);
                     if (deterministicCrossover)
                         Population.SolutionsPopulation[i] = Population.SolutionsPopulation[i]
-                            .CrossoverDeterministic(newSol, 20);
+                            .CrossoverDeterministic(newSol, 
+                            random.Next(Population.SolutionsPopulation[0].path.Count));
                     else
                         Population.SolutionsPopulation[i] = Population.SolutionsPopulation[i]
                             .CrossoverRandom(newSol);
