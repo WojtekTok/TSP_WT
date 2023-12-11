@@ -160,7 +160,7 @@ namespace TSPLibrary
             return chosenSolutions;
         }
 
-        internal List<int> ProbabilitySelect1(int solutionNumber) //roulette
+        internal List<int> ProbabilitySelect(int solutionNumber) //roulette
         {
             double totalFit = TotalFitness();
             List<int> chosenSolutions = new List<int>();

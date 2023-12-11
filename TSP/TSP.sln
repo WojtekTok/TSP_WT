@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSPLibrary", "TSPLibrary\TS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Testing", "Testing\Testing.csproj", "{2FE7FE2E-3E12-4ED2-985F-C9CAD6F12908}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSPWinForms", "TSPWinForms\TSPWinForms.csproj", "{914FF06F-99C4-4A02-8B9D-2B479D13F1FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2FE7FE2E-3E12-4ED2-985F-C9CAD6F12908}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FE7FE2E-3E12-4ED2-985F-C9CAD6F12908}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FE7FE2E-3E12-4ED2-985F-C9CAD6F12908}.Release|Any CPU.Build.0 = Release|Any CPU
+		{914FF06F-99C4-4A02-8B9D-2B479D13F1FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{914FF06F-99C4-4A02-8B9D-2B479D13F1FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{914FF06F-99C4-4A02-8B9D-2B479D13F1FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{914FF06F-99C4-4A02-8B9D-2B479D13F1FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -50,25 +50,27 @@ namespace TSPLibrary
         /// </summary>
         /// <param name="dir"> directory to a .TSP file </param>
         /// <returns></returns>
-        private double[,] LoadMatrixFromTSPLIB(string dir)
+        private double[,]? LoadMatrixFromTSPLIB(string dir)
         {
             TspFileLoader fileLoader= new();
-            StreamReader reader = new(dir); //"D:\\TSP\\TSP\\TSPLIB95\\tsp\\swiss42.tsp"
+            StreamReader reader = new(dir);
             TspFile tspFile = fileLoader.Load(reader);
+
             List<double> edgesList = tspFile.EdgeWeights;
+            if (edgesList == null)
+                throw new InvalidOperationException("This file doesn't contain weight edges");
             int nodesCount = Convert.ToInt32(Math.Sqrt(edgesList.Count));
             double[,] tempMatrix = new double[nodesCount, nodesCount];
             int index = 0;
-            for(int row=0; row<nodesCount; row++)
+            for (int row = 0; row < nodesCount; row++)
             {
-                for(int col=0; col<nodesCount; col++)
+                for (int col = 0; col < nodesCount; col++)
                 {
                     tempMatrix[row, col] = edgesList[index];
                     index++;
                 }
             }
             return tempMatrix;
-
         }
     }
 }

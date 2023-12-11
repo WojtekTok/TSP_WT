@@ -133,8 +133,6 @@ namespace TSPLibrary
                 newPath = newPath.Concat(bestFrag).ToList();
                 splittedPath.Remove(bestFrag);
             }
-            if(newPath.Count < 42)
-            { Console.WriteLine("du"); }
             return newPath; 
         }
 
@@ -188,7 +186,7 @@ namespace TSPLibrary
             if (Matrix.nodesNumber < iterations)
                 stepSize = 1;
             else
-                stepSize = Matrix.nodesNumber / iterations; 
+                stepSize = Matrix.nodesNumber / 4 / iterations; 
 
             List<int> nodesLeft = Enumerable.Range(0, Matrix.nodesNumber).ToList();
             int removeFrom;
