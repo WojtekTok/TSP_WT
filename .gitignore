@@ -402,3 +402,6 @@ FodyWeavers.xsd
 /.vs/slnx.sqlite
 
 .suo
+/TSP/Testing/Program.cs
+/TSP/Testing/Testing.csproj
+/TSP/.vs/TSP/v17/.suo

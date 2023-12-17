@@ -21,6 +21,10 @@ namespace TSPLibrary
         /// </summary>
         double mutationProbability { get; set; }
         private Random random = new Random();
+        public int crossoverCounter { get; private set; }
+        public int mutationCounter { get; private set; }
+        public double crossoverChange { get; private set; }
+        public double mutationChange { get; private set; }
 
         public Evolutionary(Population population) { Population = population; mutationProbability = 0.1; }
         /// <summary>
@@ -51,13 +55,26 @@ namespace TSPLibrary
                             random.Next(parentTwo.path.Count/2));
                     else
                         child = parentOne.CrossoverRandom(parentTwo);
+                    crossoverCounter++;
+                    double meanParents = (parentOne.cost + parentTwo.cost) / 2;
+                    crossoverChange += (meanParents-child.cost)/meanParents;
 
                     if (random.NextDouble() < mutationProbability)
                     {
+                        mutationCounter++;
                         if (deterministicMutation)
-                            child.path = child.MutateDeterministic();
+                        {
+                            var mutatedChild = new Solution(child.MutateDeterministic(), child.Matrix);
+                            mutationChange += (child.cost - mutatedChild.cost) / child.cost;
+                            child = mutatedChild;
+                        }
+
                         else
-                            child.path = child.MutateRandom();
+                        {
+                            var mutatedChild = new Solution(child.MutateRandom(), child.Matrix);
+                            mutationChange += (child.cost - mutatedChild.cost) / child.cost;
+                            child = mutatedChild;
+                        }
                     }
                     newPopulation.Add(child);
                 }
@@ -78,6 +95,16 @@ namespace TSPLibrary
         {
             List<int> parents = Population.TournamentSelect(Population.SolutionsPopulation.Count * 2);
             return parents;
+        }
+
+        public double MeanMutation() 
+        {
+            return mutationChange / (double)mutationCounter;
+        }
+
+        public double MeanCrossover()
+        {
+            return crossoverChange / (double)crossoverCounter;
         }
     }
 }

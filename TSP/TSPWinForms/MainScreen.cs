@@ -81,6 +81,12 @@ namespace TSPWinForms
             formsPlot1.Plot.PlotHLine(y: bestCost, color: Color.Red, label: "best cost");
             formsPlot1.Plot.Legend(location: Alignment.LowerLeft);
             formsPlot1.Refresh();
+            var eacmean = EA.MeanCrossover();
+            var eammean = EA.MeanMutation();
+            var abccmean = ABC.MeanCrossover();
+            var abcmmmean = ABC.MeanMutation();
+            var gwocmean = GWO.MeanCrossover();
+            var gwommean = GWO.MeanMutation();
         }
 
 

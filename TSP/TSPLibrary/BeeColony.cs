@@ -13,6 +13,11 @@ namespace TSPLibrary
         private int[] trialCounter;
         private int onlookerBees;
         private Random random = new();
+        public int crossoverCounter {  get; private set; }
+        public int mutationCounter { get; private set; }
+        public double crossoverChange { get; private set; }
+        public double mutationChange { get; private set; }
+
         public BeeColony(Population population) 
         {
             Population = population;
@@ -40,34 +45,37 @@ namespace TSPLibrary
         private void EmployedPhase(bool deterministicMutation)
         {
             List<int> populationIdices = Enumerable.Range(0, Population.SolutionsPopulation.Count).ToList();
-            NeighbourhoodExploration(populationIdices, deterministicMutation);
+            NeighbourhoodExploration(populationIdices, deterministicMutation, true);
         }
         private void OnlookerPhase(bool deterministicMutation)
         {
             List<int> toVisit = Population.TournamentSelect(onlookerBees);
-            NeighbourhoodExploration(toVisit, deterministicMutation);
+            NeighbourhoodExploration(toVisit, deterministicMutation, false);
         }
 
         private void ScoutPhase(int iterations, bool deterministicCrossover)
         {
             for (int i = 0; i < Population.SolutionsPopulation.Count; i++)
             {
-                if (trialCounter[i] > iterations*10) 
+                if (trialCounter[i] > iterations/2) 
                 {
                     trialCounter[i] = 0;
-                    var newSol = new Solution(Population.SolutionsPopulation[i].Matrix);
+                    crossoverCounter++;
+                    var bestSolutions = Population.ThreeBest();
+                    var previousCost = Population.SolutionsPopulation[i].cost;
                     if (deterministicCrossover)
                         Population.SolutionsPopulation[i] = Population.SolutionsPopulation[i]
-                            .CrossoverDeterministic(newSol, 
+                            .CrossoverDeterministic(bestSolutions[random.Next(2)], 
                             random.Next(Population.SolutionsPopulation[0].path.Count));
                     else
                         Population.SolutionsPopulation[i] = Population.SolutionsPopulation[i]
-                            .CrossoverRandom(newSol);
+                            .CrossoverRandom(bestSolutions[random.Next(2)]);
+                    crossoverChange += (previousCost - Population.SolutionsPopulation[i].cost) / previousCost;
                 }
             }
         }
 
-        private void NeighbourhoodExploration(List<int> solutionsNumber, bool determinsticMutation)
+        private void NeighbourhoodExploration(List<int> solutionsNumber, bool determinsticMutation, bool changeToWorse)
         {
             foreach(int i in solutionsNumber)
             {
@@ -77,13 +85,27 @@ namespace TSPLibrary
                     neighbour = new Solution(currSolution.MutateDeterministic(), currSolution.Matrix);
                 else
                     neighbour = new Solution(currSolution.MutateRandom(), currSolution.Matrix);
-                if (neighbour.cost < currSolution.cost)
-                    Population.SolutionsPopulation[i] = neighbour;
-                else
+                mutationCounter++;
+                mutationChange += (currSolution.cost-neighbour.cost)/ currSolution.cost;
+                if (neighbour.cost >= currSolution.cost)
                 {
                     trialCounter[i]++;
+                    if(changeToWorse)
+                        Population.SolutionsPopulation[i] = neighbour;
                 }
+                else
+                    Population.SolutionsPopulation[i] = neighbour;
             }
+        }
+
+        public double MeanMutation()
+        {
+            return mutationChange / (double)mutationCounter;
+        }
+
+        public double MeanCrossover()
+        {
+            return crossoverChange / (double)crossoverCounter;
         }
     }
 }

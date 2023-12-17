@@ -233,8 +233,8 @@ namespace TSPLibrary
         private Solution Crossover(Solution otherSolution, int startIndex, int indexNumber)
         {
             startIndex -= MoveToEnd(startIndex, indexNumber);
-            List<int> toCutOut = path.GetRange(startIndex, indexNumber);
-            List<int> cuttedOtherPath = otherSolution.path.Except(toCutOut).ToList();
+            List<int> toCutOut = otherSolution.path.GetRange(startIndex, indexNumber);
+            List<int> cuttedOtherPath = path.Except(toCutOut).ToList();
             List<int> newPath = cuttedOtherPath.Take(startIndex)
                                                 .Concat(toCutOut)
                                                 .Concat(cuttedOtherPath.Skip(startIndex))
@@ -247,7 +247,9 @@ namespace TSPLibrary
             List<double> edgesList = new();
 
             for (int i = 0; i < otherSolution.path.Count - 1; i++)
+            {
                 edgesList.Add(Matrix.Matrix[path[i], otherSolution.path[i + 1]]);
+            }
             edgesList.Add(Matrix.Matrix[path[path.Count - 1], otherSolution.path[0]]);
             var sortedEdges = edgesList
                 .Select((i, x) => new KeyValuePair<int, double>(x, i))

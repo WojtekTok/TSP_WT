@@ -9,5 +9,7 @@ namespace TSPLibrary
     interface IAlgorithm
     {
         public Solution Solve(int iterations, bool deterministicMutation, bool deterministicCrossover);
+        public double MeanMutation();
+        public double MeanCrossover();
     }
 }

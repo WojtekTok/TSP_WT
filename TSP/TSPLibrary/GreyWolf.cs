@@ -16,6 +16,10 @@ namespace TSPLibrary
         public Solution Beta;
         public Solution Delta;
         private Random random = new Random();
+        public int crossoverCounter { get; private set; }
+        public int mutationCounter { get; private set; }
+        public double crossoverChange { get; private set; }
+        public double mutationChange { get; private set; }
 
         public GreyWolf(Population population) { Population = population; }
         public Solution Solve(int iterations, bool deterministicMutation, bool deterministicCrossover)
@@ -24,18 +28,14 @@ namespace TSPLibrary
             for (int i = 0; i < iterations; i++)
             {
                 UpdateBest();
-                UpdatePositions(iterations, deterministicCrossover);
+                UpdatePositions(iterations, deterministicCrossover, deterministicMutation);
                 LowestCostsList.Add(Alpha.cost);
-                if (i>0 && LowestCostsList[i-1] < LowestCostsList[i])
-                {
-                    Console.WriteLine("zle");
-                }
             }
             UpdateBest();
             return Alpha;
         }
 
-        private void UpdatePositions(int iterations, bool deterministicCrossover)
+        private void UpdatePositions(int iterations, bool deterministicCrossover, bool deterministicMutation)
         {
             for(int i = 0; i < Population.SolutionsPopulation.Count; i++)
             {
@@ -45,14 +45,26 @@ namespace TSPLibrary
                 {
                     if (random.Next(10) == 1) // Exploration
                     {
-                        if (deterministicCrossover)
-                            Population.SolutionsPopulation[i].path = Population.SolutionsPopulation[i].MutateDeterministic();
+                        mutationCounter++;
+                        if (deterministicMutation)
+                        {
+                            var neighbour = new Solution(Population.SolutionsPopulation[i].MutateDeterministic(), Population.SolutionsPopulation[i].Matrix);
+                            mutationChange += (Population.SolutionsPopulation[i].cost - neighbour.cost)/ Population.SolutionsPopulation[i].cost;
+                            Population.SolutionsPopulation[i] = neighbour;
+                        }                       
                         else
-                            Population.SolutionsPopulation[i].path = Population.SolutionsPopulation[i].MutateRandom();
+                        {
+                            var neighbour = new Solution(Population.SolutionsPopulation[i].MutateRandom(), Population.SolutionsPopulation[i].Matrix);
+                            mutationChange += (Population.SolutionsPopulation[i].cost - neighbour.cost) / Population.SolutionsPopulation[i].cost;
+                            Population.SolutionsPopulation[i] = neighbour;
+                        }
                     }
                     else
                     {
-                        Population.SolutionsPopulation[i] = Population.SolutionsPopulation[i].ApproachingPrey(Alpha, Beta, Delta, iterations, deterministicCrossover);
+                        crossoverCounter++;
+                        var newSolution = Population.SolutionsPopulation[i].ApproachingPrey(Alpha, Beta, Delta, iterations, deterministicCrossover);
+                        crossoverChange += (Population.SolutionsPopulation[i].cost - newSolution.cost) / Population.SolutionsPopulation[i].cost;
+                        Population.SolutionsPopulation[i] = newSolution;
                     }
                 }
             }
@@ -63,6 +75,16 @@ namespace TSPLibrary
             Alpha = best[0];
             Beta = best[1];
             Delta = best[2];
+        }
+
+        public double MeanMutation()
+        {
+            return mutationChange / (double)mutationCounter;
+        }
+
+        public double MeanCrossover()
+        {
+            return crossoverChange / (double)crossoverCounter;
         }
     }
 }
