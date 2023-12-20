@@ -62,6 +62,23 @@
             button2 = new Button();
             label22 = new Label();
             label23 = new Label();
+            label24 = new Label();
+            label25 = new Label();
+            label26 = new Label();
+            label27 = new Label();
+            label28 = new Label();
+            label29 = new Label();
+            label30 = new Label();
+            label31 = new Label();
+            label32 = new Label();
+            label33 = new Label();
+            label34 = new Label();
+            label35 = new Label();
+            label36 = new Label();
+            label37 = new Label();
+            label38 = new Label();
+            label39 = new Label();
+            button3 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
@@ -73,7 +90,7 @@
             formsPlot1.Location = new Point(251, 12);
             formsPlot1.Margin = new Padding(4, 3, 4, 3);
             formsPlot1.Name = "formsPlot1";
-            formsPlot1.Size = new Size(536, 413);
+            formsPlot1.Size = new Size(626, 506);
             formsPlot1.TabIndex = 0;
             // 
             // radioButton1
@@ -111,9 +128,9 @@
             // 
             // button1
             // 
-            button1.Location = new Point(143, 215);
+            button1.Location = new Point(143, 205);
             button1.Name = "button1";
-            button1.Size = new Size(101, 75);
+            button1.Size = new Size(122, 39);
             button1.TabIndex = 8;
             button1.Text = "Start";
             button1.UseVisualStyleBackColor = true;
@@ -202,7 +219,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(18, 371);
+            label4.Location = new Point(18, 363);
             label4.Name = "label4";
             label4.Size = new Size(51, 15);
             label4.TabIndex = 16;
@@ -211,7 +228,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(18, 401);
+            label5.Location = new Point(18, 387);
             label5.Name = "label5";
             label5.Size = new Size(60, 15);
             label5.TabIndex = 17;
@@ -220,7 +237,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(90, 401);
+            label6.Location = new Point(90, 387);
             label6.Name = "label6";
             label6.Size = new Size(13, 15);
             label6.TabIndex = 20;
@@ -229,7 +246,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(90, 371);
+            label7.Location = new Point(90, 363);
             label7.Name = "label7";
             label7.Size = new Size(13, 15);
             label7.TabIndex = 19;
@@ -265,7 +282,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(148, 401);
+            label11.Location = new Point(148, 387);
             label11.Name = "label11";
             label11.Size = new Size(13, 15);
             label11.TabIndex = 24;
@@ -274,7 +291,7 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(148, 371);
+            label12.Location = new Point(148, 363);
             label12.Name = "label12";
             label12.Size = new Size(13, 15);
             label12.TabIndex = 23;
@@ -301,7 +318,7 @@
             // label15
             // 
             label15.AutoSize = true;
-            label15.Location = new Point(209, 401);
+            label15.Location = new Point(209, 387);
             label15.Name = "label15";
             label15.Size = new Size(13, 15);
             label15.TabIndex = 28;
@@ -310,7 +327,7 @@
             // label16
             // 
             label16.AutoSize = true;
-            label16.Location = new Point(209, 371);
+            label16.Location = new Point(209, 363);
             label16.Name = "label16";
             label16.Size = new Size(13, 15);
             label16.TabIndex = 27;
@@ -389,11 +406,183 @@
             label23.TabIndex = 35;
             label23.Text = "File name:";
             // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Location = new Point(209, 411);
+            label24.Name = "label24";
+            label24.Size = new Size(13, 15);
+            label24.TabIndex = 40;
+            label24.Text = "0";
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Location = new Point(148, 411);
+            label25.Name = "label25";
+            label25.Size = new Size(13, 15);
+            label25.TabIndex = 39;
+            label25.Text = "0";
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Location = new Point(90, 411);
+            label26.Name = "label26";
+            label26.Size = new Size(13, 15);
+            label26.TabIndex = 38;
+            label26.Text = "0";
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Location = new Point(18, 411);
+            label27.Name = "label27";
+            label27.Size = new Size(64, 15);
+            label27.TabIndex = 37;
+            label27.Text = "Crossovers";
+            label27.Click += label27_Click;
+            // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.Location = new Point(209, 459);
+            label28.Name = "label28";
+            label28.Size = new Size(13, 15);
+            label28.TabIndex = 48;
+            label28.Text = "0";
+            // 
+            // label29
+            // 
+            label29.AutoSize = true;
+            label29.Location = new Point(148, 459);
+            label29.Name = "label29";
+            label29.Size = new Size(13, 15);
+            label29.TabIndex = 47;
+            label29.Text = "0";
+            // 
+            // label30
+            // 
+            label30.AutoSize = true;
+            label30.Location = new Point(90, 459);
+            label30.Name = "label30";
+            label30.Size = new Size(13, 15);
+            label30.TabIndex = 46;
+            label30.Text = "0";
+            // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Location = new Point(18, 459);
+            label31.Name = "label31";
+            label31.Size = new Size(61, 15);
+            label31.TabIndex = 45;
+            label31.Text = "Mutations";
+            // 
+            // label32
+            // 
+            label32.AutoSize = true;
+            label32.Location = new Point(209, 435);
+            label32.Name = "label32";
+            label32.Size = new Size(13, 15);
+            label32.TabIndex = 44;
+            label32.Text = "0";
+            // 
+            // label33
+            // 
+            label33.AutoSize = true;
+            label33.Location = new Point(148, 435);
+            label33.Name = "label33";
+            label33.Size = new Size(13, 15);
+            label33.TabIndex = 43;
+            label33.Text = "0";
+            // 
+            // label34
+            // 
+            label34.AutoSize = true;
+            label34.Location = new Point(90, 435);
+            label34.Name = "label34";
+            label34.Size = new Size(13, 15);
+            label34.TabIndex = 42;
+            label34.Text = "0";
+            // 
+            // label35
+            // 
+            label35.AutoSize = true;
+            label35.Location = new Point(18, 435);
+            label35.Name = "label35";
+            label35.Size = new Size(69, 15);
+            label35.TabIndex = 41;
+            label35.Text = "C. efficency";
+            // 
+            // label36
+            // 
+            label36.AutoSize = true;
+            label36.Location = new Point(209, 483);
+            label36.Name = "label36";
+            label36.Size = new Size(13, 15);
+            label36.TabIndex = 52;
+            label36.Text = "0";
+            // 
+            // label37
+            // 
+            label37.AutoSize = true;
+            label37.Location = new Point(148, 483);
+            label37.Name = "label37";
+            label37.Size = new Size(13, 15);
+            label37.TabIndex = 51;
+            label37.Text = "0";
+            // 
+            // label38
+            // 
+            label38.AutoSize = true;
+            label38.Location = new Point(90, 483);
+            label38.Name = "label38";
+            label38.Size = new Size(13, 15);
+            label38.TabIndex = 50;
+            label38.Text = "0";
+            // 
+            // label39
+            // 
+            label39.AutoSize = true;
+            label39.Location = new Point(18, 483);
+            label39.Name = "label39";
+            label39.Size = new Size(72, 15);
+            label39.TabIndex = 49;
+            label39.Text = "M. efficency";
+            // 
+            // button3
+            // 
+            button3.Location = new Point(143, 257);
+            button3.Name = "button3";
+            button3.Size = new Size(122, 39);
+            button3.TabIndex = 53;
+            button3.Text = "Generate data";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // MainScreen
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(890, 530);
+            Controls.Add(button3);
+            Controls.Add(label36);
+            Controls.Add(label37);
+            Controls.Add(label38);
+            Controls.Add(label39);
+            Controls.Add(label28);
+            Controls.Add(label29);
+            Controls.Add(label30);
+            Controls.Add(label31);
+            Controls.Add(label32);
+            Controls.Add(label33);
+            Controls.Add(label34);
+            Controls.Add(label35);
+            Controls.Add(label24);
+            Controls.Add(label25);
+            Controls.Add(label26);
+            Controls.Add(label27);
             Controls.Add(label22);
             Controls.Add(label23);
             Controls.Add(button2);
@@ -472,5 +661,22 @@
         private Button button2;
         private Label label22;
         private Label label23;
+        private Label label24;
+        private Label label25;
+        private Label label26;
+        private Label label27;
+        private Label label28;
+        private Label label29;
+        private Label label30;
+        private Label label31;
+        private Label label32;
+        private Label label33;
+        private Label label34;
+        private Label label35;
+        private Label label36;
+        private Label label37;
+        private Label label38;
+        private Label label39;
+        private Button button3;
     }
 }

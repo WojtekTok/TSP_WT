@@ -57,7 +57,7 @@ namespace TSPLibrary
         {
             for (int i = 0; i < Population.SolutionsPopulation.Count; i++)
             {
-                if (trialCounter[i] > iterations/2) 
+                if (trialCounter[i] > Math.Min(iterations/10, 20)) 
                 {
                     trialCounter[i] = 0;
                     crossoverCounter++;
@@ -94,7 +94,12 @@ namespace TSPLibrary
                         Population.SolutionsPopulation[i] = neighbour;
                 }
                 else
+                {
                     Population.SolutionsPopulation[i] = neighbour;
+                    trialCounter[i]=0;
+                }
+                    
+
             }
         }
 

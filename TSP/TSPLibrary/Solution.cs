@@ -183,7 +183,7 @@ namespace TSPLibrary
         public Solution ApproachingPrey(Solution alpha, Solution beta, Solution delta, int iterations, bool deterministicCrossover) 
         {
             int stepSize;
-            if (Matrix.nodesNumber < iterations)
+            if (Matrix.nodesNumber < iterations*4)
                 stepSize = 1;
             else
                 stepSize = Matrix.nodesNumber / 4 / iterations; 
