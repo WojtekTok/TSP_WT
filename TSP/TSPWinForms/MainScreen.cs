@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using TSPLibrary;
 using OfficeOpenXml;
+using System.Data.Common;
 
 namespace TSPWinForms
 {
@@ -158,7 +159,7 @@ namespace TSPWinForms
         private void GenerateData()
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            string filePath = Path.Combine("..\\..\\..\\..\\..\\..\\TSP", "TestData.xlsx");
+            string filePath = Path.Combine("..\\..\\..\\..\\..\\", "TestData.xlsx");
             filePath = Path.GetFullPath(filePath);
 
             // Create a new Excel package
@@ -168,8 +169,14 @@ namespace TSPWinForms
                 var worksheet = package.Workbook.Worksheets["Sheet1"];
 
                 // Find the next available row
-                int startRow = worksheet.Dimension?.Rows ?? 1;
-                startRow++;
+                int startRow = 1; // Start from the first row
+
+                // Loop until an empty cell is found in the specified column
+                while (!string.IsNullOrEmpty((worksheet.Cells[startRow, 1]).Text))
+                {
+                    startRow++;
+                }
+
 
                 // Name of file, best cost, population size, iterations, mutation, crossover
                 worksheet.Cells["A" + startRow].Value = label22.Text;
@@ -192,7 +199,7 @@ namespace TSPWinForms
                     worksheet.Cells["G" + rowNumber].Value = label38.Text;
                     worksheet.Cells["H" + rowNumber].Value = label13.Text;
                     worksheet.Cells["I" + rowNumber].Value = label12.Text;
-                    worksheet.Cells["J" + rowNumber].Value = label12.Text;
+                    worksheet.Cells["J" + rowNumber].Value = label11.Text;
                     worksheet.Cells["K" + rowNumber].Value = label25.Text;
                     worksheet.Cells["L" + rowNumber].Value = label33.Text;
                     worksheet.Cells["M" + rowNumber].Value = label29.Text;
